@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/fetch/postpartum_mother_entry/', views.PostpartumMotherFetchView.as_view(), name="fetch_postpartum_mother_api"),
     path('api/fetch/girl_entry/', views.TeenAgeGirlFetchView.as_view(), name="fetch_girl_entry_api"),
     path('api/fetch/death_info_entry/', views.DeathInfoFetchView.as_view(), name="fetch_death_entry_api"),
-    path('api/download/awc_report/', views.DownloadAWCReportView.as_view(), name="download_awc_report_view"),
+    path('api/download/awc_report/<str:type>/', views.DownloadAWCReportView.as_view(), name="download_awc_report_view"),
 
 ]
 

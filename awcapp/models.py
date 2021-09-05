@@ -189,7 +189,7 @@ class ChildInfo(models.Model):
 
 class ChildStatus(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-	child_user = models.ForeignKey(ChildInfo, on_delete=models.SET_NULL, null=True)
+	child_user = models.ForeignKey(ChildInfo, on_delete=models.SET_NULL, null=True, related_name='child_status')
 	weight = models.CharField(verbose_name="Weight",max_length=180,blank=True,null=True)
 	height = models.CharField(verbose_name="Height",max_length=180,blank=True,null=True)
 	amusc = models.CharField(verbose_name="Amusc",max_length=180,blank=True,null=True)
@@ -223,7 +223,7 @@ class GravidWomenInfo(models.Model):
 
 class GravidWomenStatus(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-	gravid_women = models.ForeignKey(GravidWomenInfo, on_delete=models.SET_NULL, null=True)
+	gravid_women = models.ForeignKey(GravidWomenInfo, on_delete=models.SET_NULL, null=True, related_name='gravid_women_status')
 	condition = models.CharField(max_length=180,blank=True,null=True)
 	probable_delivery_date = models.DateField(verbose_name="Probable Delivery Date",max_length=8,blank=True,null=True)
 	hemoglobin_level = models.CharField(max_length=180,blank=True,null=True)
@@ -259,7 +259,7 @@ class PostpartumMother(models.Model):
 
 class PostpartumStatus(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-	postpartum_mother = models.ForeignKey(PostpartumMother, on_delete=models.SET_NULL, null=True)
+	postpartum_mother = models.ForeignKey(PostpartumMother, on_delete=models.SET_NULL, null=True, related_name='postpartum_mother_status')
 	hemoglobin_level = models.CharField(max_length=180,blank=True,null=True)
 	anc_checkup = models.BooleanField(default=False)
 	plasmodium_inf_test = models.BooleanField(default=False)
@@ -291,7 +291,7 @@ class TeenAgeGirl(models.Model):
 
 class TeenAgeGirlStatus(models.Model):
 	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-	girl = models.ForeignKey(TeenAgeGirl, on_delete=models.SET_NULL, null=True)
+	girl = models.ForeignKey(TeenAgeGirl, on_delete=models.SET_NULL, null=True, related_name='teenage_girl_status')
 	weight = models.CharField(max_length=180,blank=True,null=True)
 	hemoglobin_level = models.CharField(max_length=180,blank=True,null=True)
 	plasmodium_inf_test = models.BooleanField(default=False)
