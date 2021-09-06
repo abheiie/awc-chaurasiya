@@ -322,8 +322,9 @@ class DeathInfoView(RetrieveAPIView):
 
 
 class DownloadAWCReportView(APIView):
-	permission_classes = (AllowAny,)
+	permission_classes = (IsAuthenticated,)
 	authentication_classes = (JSONWebTokenAuthentication,)
+
 
 	def common_method(self, header, filename):
 		import csv
@@ -335,14 +336,20 @@ class DownloadAWCReportView(APIView):
 
 	
 	def get(self, request, type):
+		district_level = ["super_visor"]
 
+		user = User.objects.get(id=request.user.id)
+		print(user.user_roll)
 		if type == "child_under_6":
 			header = ["क्र.","आंगनवाड़ी केंद्र का नाम", "बच्चे का नाम", "माता", "माता का आधार", "पिता", "पिता का आधार", "बच्चे की जन्मतिथि", "लिंग", "जाति", "विकलांग", "मो.न.", "वजन", "उन्चाई", "एमएयूसी", "कुपोशन की स्थिति"]
 			writer, response = self.common_method(header, "child_under_6.csv")
-			child_info_object = ChildInfo.objects.all()
+
+			if user.user_roll in district_level:
+				child_info_object = ChildInfo.objects.filter(district = user.district)
+			else:
+				child_info_object = ChildInfo.objects.all()
 			count = 0
 			for i in child_info_object:
-				print(i.child_status.filter().last().weight)
 				count+=1
 				current_row = []
 				current_row.append(count)
@@ -368,14 +375,18 @@ class DownloadAWCReportView(APIView):
 					except:
 						current_row.append("kuposhan ki sthiti")
 				writer.writerow(current_row)
+			return response
+
 
 		elif type == "pregnant_woman":
 			header = ["क्र.","सेक्टर का नाम", "आंगनबाडी केन्द्र का नाम","गर्भवती महिला का नाम","पति का नाम","गर्भवती का आधार","मो0न0","जन्मतिथि","गर्भधारण की स्थिति","संभावित प्रसव की तिथि","महिला का वजन","हिमोग्लोबिन स्तर","ए.एन.सी चेकअप (हां/नही)","आई.एफ.ए. टेबलेट (हां/नही)", "प्रदायित पोषण आहार (हां/नही)"]                                              
 			writer, response = self.common_method(header, "pregnant_woman.csv")
-			gravid_women_info = GravidWomenInfo.objects.all()
+			if user.user_roll in district_level:
+				gravid_women_info = GravidWomenInfo.objects.filter(district = user.district)
+			else:
+				gravid_women_info = GravidWomenInfo.objects.all()
 			count = 0
 			for i in gravid_women_info:
-				print(i.sector.name)
 				current_row = []
 				current_row.append(count)
 				current_row.append(i.sector.name)
@@ -400,7 +411,10 @@ class DownloadAWCReportView(APIView):
 		elif type == "postpartum_mother":
 			header = ["क्र","सेक्टर का नाम","आंगनबाड़ी केन्द्र का नाम","शिशुवती माता का नाम","पति का नाम","आधार क्रमांक","प्रसव तिथि","हिमोग्लोबिन स्तर","प्रदायित पोषण आहार","मलेरिया जांच"]
 			writer, response = self.common_method(header, "postpartum_mother.csv")
-			postpartum_mother_info = PostpartumMother.objects.all()
+			if user.user_roll in district_level:
+				postpartum_mother_info = PostpartumMother.objects.filter(district = user.district)
+			else:
+				postpartum_mother_info = PostpartumMother.objects.all()
 			count = 0
 
 			for i in postpartum_mother_info:
@@ -424,10 +438,13 @@ class DownloadAWCReportView(APIView):
 		elif type == "teen_age_girl":
 			header = ["आंगनबाड़ी का नाम","किशोरी बालिका का नाम","पिता का नाम","आधार क्रमांक","जन्मतिथि","वजन","हिमोग्लोबिन स्तर","प्रदायित पोषण आहार (हां/नही)","मलेरिया जांच (हां/नही)","आई.एफ.ए. (हां/नही)"]
 			writer, response = self.common_method(header, "postpartum_mother.csv")
-			postpartum_mother_info = TeenAgeGirl.objects.all()
+			if user.user_roll in district_level:
+				teen_age_girl_info = TeenAgeGirl.objects.filter(district = user.district)
+			else:
+				teen_age_girl_info = TeenAgeGirl.objects.all()
 			count = 0
 
-			for i in postpartum_mother_info:
+			for i in teen_age_girl_info:
 				current_row = []
 				current_row.append(count)
 				current_row.append(i.awc_center_name) 

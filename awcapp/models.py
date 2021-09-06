@@ -180,6 +180,7 @@ class ChildInfo(models.Model):
 	is_handicapped = models.BooleanField(default=False)
 	condition = models.CharField(verbose_name="Condition",max_length=220,blank=True,null=True)
 	created_on = models.DateTimeField(auto_now_add=True)
+	district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
 
 
 	def __str__(self):
@@ -211,6 +212,8 @@ class GravidWomenInfo(models.Model):
 	dob = models.DateField(verbose_name="Date of Birth",max_length=8,blank=True,null=True)
 	mobile_no = models.CharField(max_length=180,blank=True,null=True)
 	created_on = models.DateTimeField(auto_now_add=True)
+	district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+
 
 
 	def __str__(self):
@@ -250,6 +253,8 @@ class PostpartumMother(models.Model):
 	delivery_date = models.DateField(verbose_name="Probable Delivery Date",max_length=8,blank=True,null=True)
 	mobile_no = models.CharField(max_length=180,blank=True,null=True)
 	created_on = models.DateTimeField(auto_now_add=True)
+	district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+
 
 
 	def __str__(self):
@@ -281,6 +286,8 @@ class TeenAgeGirl(models.Model):
 	girl_aadhar = models.CharField(verbose_name="Teen Age Girl Aadhar",max_length=180,blank=True,null=True)
 	mobile_no = models.CharField(max_length=180,blank=True,null=True)
 	created_on = models.DateTimeField(auto_now_add=True)
+	district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+
 
 
 	def __str__(self):
@@ -314,6 +321,8 @@ class DeathInfo(models.Model):
 	day_of_death = models.DateField(verbose_name="Day of Death",max_length=8,blank=True,null=True)
 	death_reason = models.CharField(verbose_name="Death Reason",max_length=180,blank=True,null=True)
 	created_on = models.DateTimeField(auto_now_add=True)
+	district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True)
+
 
 
 	def __str__(self):
